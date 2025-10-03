@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Hidden Prodigy Paradox • A Stylish Field Guide</title>
+<meta name="description" content="Strength disguised as weakness: a field guide to the Hidden Prodigy Paradox across nature, physics, culture, and myth. Offline-first, IndexedDB-enabled." />
+<meta name="theme-color" content="#0b0f14" />
+<style>
+  :root{
+    --bg:#0b0f14; --bg-soft:#0e131a; --card:#121923; --ink:#e9f0f7; --muted:#9db2c7;
+    --accent:#72e6b9; --accent-2:#9aa7ff; --accent-3:#ffd479; --danger:#ff7a90;
+    --shadow:0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
+    --radius:16px; --radius-sm:10px; --radius-lg:28px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink); background: radial-gradient(1200px 700px at 80% -10%, #132033 0%, #0b0f14 55%) fixed, var(--bg);
+    font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+    letter-spacing:.1px; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+
+  /* Particle field (pure CSS) */
+  .sky{
+    position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.7), transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 20%, rgba(255,255,255,.5), transparent 60%),
+      radial-gradient(1.2px 1.2px at 40% 80%, rgba(255,255,255,.5), transparent 60%),
+      radial-gradient(1.8px 1.8px at 85% 60%, rgba(255,255,255,.6), transparent 60%);
+    opacity:.35; filter:drop-shadow(0 0 3px rgba(255,255,255,.25));
+    animation: twinkle 10s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{
+    from{opacity:.25; transform:translateY(0)}
+    to{opacity:.5; transform:translateY(-1.5vh)}
+  }
+
+  header.hero{
+    position:relative; z-index:1; padding: clamp(28px, 5vw, 64px);
+    display:grid; gap:18px; align-items:center; justify-items:start;
+  }
+  .badge{
+    display:inline-flex; align-items:center; gap:10px; padding:8px 12px;
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border-radius:999px; box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.07);
+    color:var(--muted); font-size:13px; letter-spacing:.3px;
+  }
+  .badge svg{width:16px; height:16px; opacity:.8}
+
+  h1{
+    margin:0; font-weight:800; line-height:1.05;
+    font-size: clamp(30px, 5vw, 54px); letter-spacing:.2px;
+    background:linear-gradient(90deg, var(--ink), #b9d4ff 55%, #9ff3cc 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow: 0 8px 40px rgba(114,230,185,.08);
+  }
+  .sub{
+    max-width:75ch; color:var(--muted); font-size: clamp(14px, 1.6vw, 18px)
+  }
+
+  .toolbar{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:8px
+  }
+  .btn{
+    appearance:none; border:1px solid rgba(255,255,255,.08);
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    color:var(--ink); padding:10px 14px; border-radius:12px; cursor:pointer;
+    backdrop-filter: blur(6px); box-shadow: var(--shadow); font-weight:600;
+  }
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
+  .btn.primary{border-color:rgba(114,230,185,.35); box-shadow: 0 12px 28px rgba(114,230,185,.15), inset 0 0 0 1px rgba(114,230,185,.35)}
+  .btn.warn{border-color: rgba(255,122,144,.35); box-shadow: 0 12px 28px rgba(255,122,144,.12), inset 0 0 0 1px rgba(255,122,144,.35)}
+
+  main{position:relative; z-index:1; padding: 0 clamp(20px, 5vw, 64px) 64px}
+  section{
+    margin: 28px 0; background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    border:1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: var(--shadow);
+    overflow:hidden;
+  }
+  section header{
+    padding:20px 22px; border-bottom:1px solid rgba(255,255,255,.06);
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
+  }
+  section header h2{margin:0; font-size:18px; letter-spacing:.3px}
+  .section-body{padding: 18px 22px}
+  .pill{font-size:12px; color:var(--muted); padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.08)}
+
+  /* Grid of cards */
+  .grid{
+    display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    border:1px solid rgba(255,255,255,.07); border-radius: var(--radius-sm); padding:16px;
+    box-shadow: var(--shadow); position:relative; overflow:hidden;
+  }
+  .card h3{margin:0 0 6px; font-size:16px}
+  .card .meta{color:var(--muted); font-size:13px; margin-bottom:6px}
+  .card .act{display:flex; gap:8px; margin-top:10px}
+  .tag{font-size:11px; color:#0b0f14; background:var(--accent); border-radius:999px; padding:4px 8px; font-weight:700}
+  .tag.alt{background: var(--accent-2); color:#060913}
+  .tag.sun{background: var(--accent-3); color:#1b1306}
+
+  /* Original Content block (verbatim) */
+  .verbatim{
+    white-space:pre-wrap; font-size:15px; line-height:1.6; color:#eaf4ff;
+    background:
+      radial-gradient(600px 200px at 20% 0%, rgba(114,230,185,.08), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    border:1px dashed rgba(114,230,185,.35); border-radius: var(--radius); padding:18px; box-shadow: var(--shadow);
+  }
+  .note{
+    background: #0f1620; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; color:var(--muted);
+  }
+
+  /* Notes & highlights */
+  .notes{
+    display:grid; gap:8px;
+  }
+  textarea{
+    width:100%; min-height:120px; resize:vertical; background:#0c121a; color:var(--ink);
+    border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; font:inherit;
+  }
+  .hl{
+    background: linear-gradient(90deg, rgba(114,230,185,.25), rgba(154,167,255,.25));
+    border-left: 3px solid var(--accent);
+    padding: 8px 10px; border-radius: 10px; margin: 6px 0;
+  }
+
+  footer{
+    color:var(--muted); text-align:center; padding: 28px 0 64px; font-size:13px
+  }
+
+  /* Search/filter bar */
+  .searchbar{display:flex; gap:10px; flex-wrap:wrap}
+  .searchbar input[type="search"]{
+    flex:1; min-width:220px; background:#0c121a; color:var(--ink);
+    border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px 12px; font:inherit;
+  }
+  .switch{
+    display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--muted)
+  }
+  .switch input{accent-color:var(--accent)}
+
+  /* Responsive tweaks */
+  @media (max-width:740px){
+    .toolbar{gap:8px}
+  }
+
+  /* Print styling */
+  @media print{
+    .sky, .toolbar, .btn, .note, .switch { display:none !important }
+    section{break-inside:avoid}
+    body{background:white; color:black}
+    .verbatim{border:1px solid #999; background:white; color:black}
+  }
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header class="hero">
+  <span class="badge" title="Peace-by-design, Regeneration-as-default">
+    <!-- simple spark icon -->
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v6m0 8v6M2 12h6m8 0h6M4.9 4.9l4.2 4.2m5.8 5.8 4.2 4.2M4.9 19.1l4.2-4.2m5.8-5.8 4.2-4.2"/></svg>
+    Hidden Prodigy Paradox • Field Guide
+  </span>
+  <h1>Strength in Disguise: spotting the “weakness → prodigy” cycle</h1>
+  <p class="sub">
+    Prenarrative inversion in the wild: systems dismiss what looks small, fragile, or marginal — and that underestimation buys the seed enough time to become the forest. This guide preserves your original passage <em>verbatim</em>, extends it with mythic/biological/physical mappings, and gives you IndexedDB-backed tools to highlight, annotate, export, and teach offline.
+  </p>
+  <div class="toolbar">
+    <button class="btn primary" id="btnHighlight">Highlight Selection</button>
+    <button class="btn" id="btnExport">Export Notes JSON</button>
+    <button class="btn" id="btnPrint">Print / PDF</button>
+    <button class="btn warn" id="btnReset">Reset Local Data</button>
+    <label class="switch"><input type="checkbox" id="modeToggle"/> Light mode</label>
+  </div>
+</header>
+
+<main>
+  <!-- SEARCH / FILTER -->
+  <section aria-labelledby="filtering">
+    <header>
+      <h2 id="filtering">Explore the Pattern</h2>
+      <span class="pill">Search & filter</span>
+    </header>
+    <div class="section-body">
+      <div class="searchbar">
+        <input type="search" id="q" placeholder="Search examples (seed, gravity, exile, trickster…)" />
+        <button class="btn" id="clearQ">Clear</button>
+        <label class="switch"><input type="checkbox" id="onlyFavs"/> Show favorites only</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORIGINAL CONTENT (VERBATIM) -->
+  <section aria-labelledby="verbatim">
+    <header>
+      <h2 id="verbatim">Original Passage • Verbatim</h2>
+      <span class="pill">Immutable context</span>
+    </header>
+    <div class="section-body">
+      <div id="verbatimBlock" class="verbatim">
+What you’ve just described is a very old, very alive pattern: strength disguised as weakness, prodigy hidden in plain sight. Nature and culture both play this game constantly. Let’s dig into some examples that make the paradox sing.  
+
+---
+
+### In Nature
+- **Seed vs. Tree**  
+  A seed is tiny, fragile, looks like it could be crushed underfoot. Yet packed inside is the entire architecture of a massive oak or sequoia. Its weakness is camouflage until it “switches on” its cycle of exponential growth.  
+
+- **Caterpillar vs. Butterfly**  
+  The caterpillar is slow, vulnerable, an easy snack for birds. Yet within its so-called “weak” body is the imaginal disk—the genetic blueprint for transformation into a butterfly. Its very fragility is the cocoon for future strength.  
+
+- **Octopus Larvae**  
+  Newly hatched octopi are minuscule and transparent, drifting plankton. They look like they have no defenses at all, yet hidden within are some of the most sophisticated nervous systems on Earth, future escape artists capable of feats rivaling human-level problem solving.  
+
+- **Mycelium**  
+  Fungal threads look like dust, weakness itself, but beneath the soil they weave networks more powerful than any centralized server farm—routing nutrients, signaling danger, and sustaining entire forests.  
+
+---
+
+### In Physics & Phenomena
+- **Quantum Tunneling**  
+  A single particle seems powerless against a barrier. Yet through quantum effects, it “slips” through walls that should be impenetrable. Weakness—its tiny mass and energy—becomes the trick that allows the impossible.  
+
+- **Critical Mass**  
+  One neutron looks trivial, insignificant. Yet at the right moment it cascades into a chain reaction, unleashing vast stored energy. Weakness of the unit, strength of the system.  
+
+- **Gravity**  
+  Of the fundamental forces, gravity is the weakest by orders of magnitude. But it organizes galaxies, sculpts stars, and governs the architecture of the universe.  
+
+---
+
+### In Human and Cultural Cycles
+- **Exiled Figures**  
+  History is littered with people underestimated, ignored, or cast out—who later became culture-shapers. Socrates was mocked as barefoot and poor, yet his “weak” position freed him from power games to seed Western philosophy.  
+
+- **Hidden Children**  
+  Stories from Moses to Harry Potter repeat the archetype of the vulnerable infant hidden away, precisely because their future influence is immense. The cloak of weakness is protective camouflage until strength is ready.  
+
+- **Neurodivergence**  
+  Many prodigies—scientific, artistic, spiritual—show up as “out of step” with their society. What looks like fragility, eccentricity, or incapacity can be the hidden doorway into radical new insight.  
+
+---
+
+So yes—the paradox you’re pointing to is woven into the very operating system of existence. Weakness is often the mask evolution uses to incubate prodigies, whether seeds, children, forces, or ideas. The cloak works because predators, rivals, or critics dismiss what doesn’t appear threatening.  
+
+That’s the deeper cycle: systems underestimate what looks small, fragile, or marginal, and that underestimation buys the hidden prodigy enough time to grow into unstoppable strength.  
+
+This suggests a larger inversion: in every “weak link” around us might be a future center of gravity. The game is learning to notice the camouflaged seeds before they tower over the canopy.
+
+      </div>
+      <div id="verbatimHighlights" class="hl" hidden></div>
+      <div class="note">Tip: Select any text above and press “Highlight Selection” to save it. Notes & favorites are stored locally via IndexedDB. Your data never leaves the file.</div>
+    </div>
+  </section>
+
+  <!-- EXPANDED SECTION -->
+  <section aria-labelledby="expanded">
+    <header>
+      <h2 id="expanded">Expanded Field Guide • Patterns, Signals, Actions</h2>
+      <span class="pill">Added section</span>
+    </header>
+    <div class="section-body">
+      <div class="grid" id="cards"><!-- injected by JS --></div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section aria-labelledby="notes">
+    <header>
+      <h2 id="notes">Your Field Notes</h2>
+      <span class="pill">IndexedDB • local-only</span>
+    </header>
+    <div class="section-body">
+      <div class="notes">
+        <textarea id="notesBox" placeholder="Observations, patterns you’re spotting, people to watch, seeds to protect… (auto-saves)"></textarea>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn" id="btnCopyNotes">Copy Notes</button>
+          <button class="btn" id="btnClearNotes">Clear Notes</button>
+          <span id="saveState" class="pill">Unsaved</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRESENTATION SCHEMA / HOW-TO -->
+  <section aria-labelledby="schema">
+    <header>
+      <h2 id="schema">Presentation Schema & Teaching Mode</h2>
+      <span class="pill">Facilitator tools</span>
+    </header>
+    <div class="section-body">
+      <div class="grid">
+        <div class="card">
+          <h3>Mythic Map</h3>
+          <div class="meta">Archetypes that encode power-masked-as-weakness</div>
+          <ul>
+            <li><strong>Trickster</strong> (Anansi, Loki): feigned folly to outmaneuver giants.</li>
+            <li><strong>Hidden Heir</strong> (Moses, Sundiata, Arthur): risk → concealment → return.</li>
+            <li><strong>Pilgrim-Scientist</strong> (Socrates, Hypatia): social “weakness” as intellectual sovereignty.</li>
+            <li><strong>The Seed</strong> (Demeter/Persephone cycle): descent as precondition for bloom.</li>
+          </ul>
+          <div class="act"><button class="btn fav" data-fav="Mythic Map">★ Favorite</button></div>
+        </div>
+        <div class="card">
+          <h3>Detection Heuristics</h3>
+          <div class="meta">Practical signals to recognize cloaked prodigies</div>
+          <ul>
+            <li>High variance outputs with low institutional fit.</li>
+            <li>Asymmetric curiosity: deep in one domain, playful in the rest.</li>
+            <li>Repeated underestimation by status-seeking peers.</li>
+            <li>Signals of stewardship: protects commons, shares credit, builds soil.</li>
+          </ul>
+          <div class="act"><button class="btn fav" data-fav="Detection Heuristics">★ Favorite</button></div>
+        </div>
+        <div class="card">
+          <h3>Physics Echoes</h3>
+          <div class="meta">How small forces steer big worlds</div>
+          <p>Gravity’s weakness organizes galaxies; tunneling beats walls; phase transitions flip states once the “invisible” threshold is crossed.</p>
+          <span class="tag">gravity</span> <span class="tag alt">tunneling</span> <span class="tag sun">thresholds</span>
+          <div class="act"><button class="btn fav" data-fav="Physics Echoes">★ Favorite</button></div>
+        </div>
+        <div class="card">
+          <h3>Biology Echoes</h3>
+          <div class="meta">Seed, chrysalis, and mycelial mesh</div>
+          <p>Fragility as camouflage, incubation as strategy, networks as quiet power. The forest is a conspiracy of patient weaklings.</p>
+          <span class="tag">seed</span> <span class="tag alt">imaginal cells</span> <span class="tag sun">mycelium</span>
+          <div class="act"><button class="btn fav" data-fav="Biology Echoes">★ Favorite</button></div>
+        </div>
+        <div class="card">
+          <h3>Cultural Echoes</h3>
+          <div class="meta">Margins → center of gravity</div>
+          <p>Exiles, misfits, and neurodivergent minds carry unpopular maps of the future. Today’s outlier is tomorrow’s standard.</p>
+          <div class="act"><button class="btn fav" data-fav="Cultural Echoes">★ Favorite</button></div>
+        </div>
+        <div class="card">
+          <h3>Action Prompts</h3>
+          <div class="meta">Prenarrative inversion IRL</div>
+          <ul>
+            <li>Fund small experiments with large option value.</li>
+            <li>Design “weak-signal shelters” (labs, grants, quiet time).</li>
+            <li>Reward verifiable public-good outputs, not status displays.</li>
+            <li>Archive early; protect sovereignty; publish enough to be auditable.</li>
+          </ul>
+          <div class="act"><button class="btn fav" data-fav="Action Prompts">★ Favorite</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Hidden Prodigy Paradox • Offline-first. Transparency, sovereignty, and zero-harm by default. <br/>
+    <span style="opacity:.7">Tip: Press <kbd>/</kbd> to focus search. Your highlights & notes are saved locally.</span>
+  </footer>
+</main>
+
+<script>
+/* ===========================================================
+   Offline-first SW (registered from an inline Blob)
+   =========================================================== */
+(function registerSW(){
+  if(!('serviceWorker' in navigator)) return;
+  const swCode = `
+    self.addEventListener('install', e=>{
+      e.waitUntil(
+        caches.open('hpp-v1').then(c=>c.addAll(['./']))
+      );
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e=> { self.clients.claim(); });
+    self.addEventListener('fetch', e=>{
+      const req = e.request;
+      // Cache-first for this single file
+      e.respondWith(
+        caches.match(req).then(hit => hit || fetch(req).then(res=>{
+          const r = res.clone();
+          caches.open('hpp-v1').then(c=>c.put(req, r)).catch(()=>{});
+          return res;
+        }).catch(()=> caches.match('./')))
+      );
+    });
+  `;
+  const blob = new Blob([swCode], {type:'text/javascript'});
+  const swURL = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swURL).catch(()=>{});
+})();
+
+/* ===========================================================
+   IndexedDB minimal helper
+   =========================================================== */
+const DB_NAME = 'hidden-prodigy-paradox';
+const DB_VER  = 1;
+let db;
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = (e)=>{
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains('kv')) d.createObjectStore('kv');
+      if(!d.objectStoreNames.contains('favs')) d.createObjectStore('favs');
+      if(!d.objectStoreNames.contains('highlights')) d.createObjectStore('highlights', {autoIncrement:true});
+    };
+    req.onsuccess = ()=>{ db=req.result; resolve(db); };
+    req.onerror   = ()=>reject(req.error);
+  });
+}
+function idbGet(store, key){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readonly'); const st=tx.objectStore(store);
+    const r = st.get(key); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbSet(store, key, val){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.put(val, key); r.onsuccess=()=>resolve(); r.onerror=()=>reject(r.error);
+  });
+}
+function idbAdd(store, val){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.add(val); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbGetAll(store){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readonly'); const st=tx.objectStore(store);
+    const r = st.getAll(); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbClear(store){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.clear(); r.onsuccess=()=>resolve(); r.onerror=()=>reject(r.error);
+  });
+}
+
+/* ===========================================================
+   App State
+   =========================================================== */
+const cardsData = [
+  {title:'Mythic Map', text:'Archetypes that encode power-masked-as-weakness', tags:['myth','archetype']},
+  {title:'Detection Heuristics', text:'Signals that a cloaked prodigy is nearby', tags:['heuristics','signals']},
+  {title:'Physics Echoes', text:'Small forces steering big worlds', tags:['physics','tunneling','gravity']},
+  {title:'Biology Echoes', text:'Seed → chrysalis → mycelial mesh', tags:['biology','mycelium','imaginal']},
+  {title:'Cultural Echoes', text:'Margins become centers of gravity', tags:['culture','history']},
+  {title:'Action Prompts', text:'Prenarrative inversion in practice', tags:['action','design']},
+];
+
+const els = {
+  cards: document.getElementById('cards'),
+  q: document.getElementById('q'),
+  clearQ: document.getElementById('clearQ'),
+  onlyFavs: document.getElementById('onlyFavs'),
+  notes: document.getElementById('notesBox'),
+  saveState: document.getElementById('saveState'),
+  verbatim: document.getElementById('verbatimBlock'),
+  verbatimHighlights: document.getElementById('verbatimHighlights'),
+  btnHighlight: document.getElementById('btnHighlight'),
+  btnExport: document.getElementById('btnExport'),
+  btnPrint: document.getElementById('btnPrint'),
+  btnReset: document.getElementById('btnReset'),
+  modeToggle: document.getElementById('modeToggle'),
+};
+
+/* ===========================================================
+   Render cards + favorites
+   =========================================================== */
+let favs = new Set();
+
+function cardTemplate(c){
+  const t = (c.tags||[]).map(v=>`<span class="tag">${v}</span>`).join(' ');
+  return `
+    <div class="card" data-title="${c.title.toLowerCase()}" data-tags="${(c.tags||[]).join(',').toLowerCase()}">
+      <h3>${c.title}</h3>
+      <div class="meta">${c.text}</div>
+      <div>${t}</div>
+      <div class="act">
+        <button class="btn fav" data-fav="${c.title}">${favs.has(c.title) ? '★ Unfavorite' : '★ Favorite'}</button>
+        <button class="btn" data-copy="${c.title}">Copy Title</button>
+      </div>
+    </div>`;
+}
+function renderCards(){
+  const q = (els.q.value||'').trim().toLowerCase();
+  const onlyFav = els.onlyFavs.checked;
+  els.cards.innerHTML = cardsData.map(cardTemplate).join('');
+  [...els.cards.querySelectorAll('.card')].forEach(card=>{
+    const title = card.dataset.title;
+    const tags  = card.dataset.tags;
+    const isFav = favs.has(card.querySelector('[data-fav]').dataset.fav);
+    const textMatch = !q || title.includes(q) || tags.includes(q);
+    const favMatch = !onlyFav || isFav;
+    card.style.display = (textMatch && favMatch) ? '' : 'none';
+  });
+}
+
+/* ===========================================================
+   Highlights (verbatim block)
+   =========================================================== */
+async function addHighlight(){
+  const sel = window.getSelection();
+  const text = String(sel).trim();
+  if(!text){ alert('Select some text first.'); return; }
+  await idbAdd('highlights', {text, ts: Date.now()});
+  renderHighlights();
+}
+async function renderHighlights(){
+  const rows = await idbGetAll('highlights');
+  if(!rows.length){ els.verbatimHighlights.hidden = true; els.verbatimHighlights.innerHTML=''; return; }
+  els.verbatimHighlights.hidden = false;
+  els.verbatimHighlights.innerHTML = rows.map(r=>`<div class="hl">“${r.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}”</div>`).join('');
+}
+
+/* ===========================================================
+   Notes
+   =========================================================== */
+let saveTimer;
+function markSaved(msg='Saved'){ els.saveState.textContent = msg; }
+function markUnsaved(){ els.saveState.textContent = 'Unsaved'; }
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    await idbSet('kv','notes', els.notes.value);
+    markSaved();
+  }, 400);
+}
+
+/* ===========================================================
+   Favorites
+   =========================================================== */
+async function loadFavs(){
+  const raw = await idbGet('kv','favs');
+  favs = new Set(Array.isArray(raw)? raw : []);
+}
+async function saveFavs(){
+  await idbSet('kv','favs', Array.from(favs));
+}
+
+/* ===========================================================
+   Mode toggle
+   =========================================================== */
+function setLightMode(on){
+  document.documentElement.style.setProperty('--bg', on?'#f6f9ff':'#0b0f14');
+  document.documentElement.style.setProperty('--bg-soft', on?'#eef3ff':'#0e131a');
+  document.documentElement.style.setProperty('--card', on?'#ffffff':'#121923');
+  document.documentElement.style.setProperty('--ink', on?'#0b0f14':'#e9f0f7');
+  document.documentElement.style.setProperty('--muted', on?'#41556a':'#9db2c7');
+}
+
+/* ===========================================================
+   Export / Print / Reset
+   =========================================================== */
+async function exportJSON(){
+  const notes = await idbGet('kv','notes') || '';
+  const highlights = await idbGetAll('highlights');
+  const favorites = await idbGet('kv','favs') || [];
+  const payload = {
+    schema:'hidden-prodigy-paradox.v1',
+    exportedAt: new Date().toISOString(),
+    notes, highlights, favorites
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), {href:url, download:'hidden_prodigy_export.json'});
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+async function resetAll(){
+  if(!confirm('This will clear highlights, notes, and favorites saved locally. Continue?')) return;
+  await idbClear('highlights'); await idbSet('kv','notes',''); await idbSet('kv','favs',[]);
+  favs = new Set(); els.notes.value=''; renderCards(); renderHighlights(); markSaved('Cleared');
+}
+
+/* ===========================================================
+   Event wiring
+   =========================================================== */
+(async function init(){
+  await openDB();
+
+  // Load state
+  els.notes.value = await idbGet('kv','notes') || '';
+  markSaved('Loaded');
+  await loadFavs();
+  renderCards();
+  renderHighlights();
+
+  // Search/filter
+  els.q.addEventListener('input', renderCards);
+  els.clearQ.addEventListener('click', ()=>{ els.q.value=''; renderCards(); });
+  els.onlyFavs.addEventListener('change', renderCards);
+
+  // Notes autosave
+  els.notes.addEventListener('input', ()=>{ markUnsaved(); scheduleSave(); });
+
+  // Buttons
+  els.btnHighlight.addEventListener('click', addHighlight);
+  els.btnExport.addEventListener('click', exportJSON);
+  els.btnPrint.addEventListener('click', ()=>window.print());
+  els.btnReset.addEventListener('click', resetAll);
+
+  // Delegated actions on cards
+  els.cards.addEventListener('click', async (e)=>{
+    const b = e.target.closest('button');
+    if(!b) return;
+    if(b.dataset.fav){
+      const key = b.dataset.fav;
+      favs.has(key) ? favs.delete(key) : favs.add(key);
+      await saveFavs(); renderCards();
+    }else if(b.dataset.copy){
+      navigator.clipboard.writeText(b.dataset.copy).catch(()=>{});
+      b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy Title',1000);
+    }
+  });
+
+  // Mode toggle
+  els.modeToggle.addEventListener('change', e=> setLightMode(e.target.checked));
+
+  // Keyboard: / focuses search
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === '/'){ e.preventDefault(); els.q.focus(); }
+  });
+})();
+</script>
+</body>
+</html>
