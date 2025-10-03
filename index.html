@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Hidden Prodigy Paradox • A Stylish Field Guide</title>
+<meta name="description" content="Strength disguised as weakness: a field guide to the Hidden Prodigy Paradox across nature, physics, culture, and myth. Offline-first, IndexedDB-enabled." />
+<meta name="theme-color" content="#0b0f14" />
+<style>
+  :root{
+    --bg:#0b0f14; --bg-soft:#0e131a; --card:#121923; --ink:#e9f0f7; --muted:#9db2c7;
+    --accent:#72e6b9; --accent-2:#9aa7ff; --accent-3:#ffd479; --danger:#ff7a90;
+    --radius:14px; --radius-sm:8px; --shadow:0 4px 16px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6; padding:20px; position:relative; min-height:100vh;
+  }
+  /* Starfield */
+  body::before{
+    content:''; display:block;
+    position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.7), transparent 60%),
+      radial-gradient(1.5px 1.5px at 70% 20%, rgba(255,255,255,.5), transparent 60%),
+      radial-gradient(1.2px 1.2px at 40% 80%, rgba(255,255,255,.5), transparent 60%),
+      radial-gradient(1.8px 1.8px at 85% 60%, rgba(255,255,255,.6), transparent 60%);
+    opacity:.35; filter:drop-shadow(0 0 3px rgba(255,255,255,.25));
+    animation: twinkle 10s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{
+    from{opacity:.25; transform:translateY(0)}
+    to{opacity:.5; transform:translateY(-2px)}
+  }
+
+  /* Layout */
+  main{position:relative; z-index:1; max-width:900px; margin:0 auto}
+  header{text-align:center; padding:60px 0 40px}
+  h1{font-size:clamp(28px,5vw,52px); font-weight:800; margin-bottom:10px; color:var(--accent)}
+  h1 sub{font-size:.45em; font-weight:400; color:var(--muted); display:block; margin-top:8px}
+  section{margin-bottom:50px}
+  section>header{background:var(--bg-soft); border-radius:var(--radius); padding:20px; margin-bottom:16px; border:1px solid rgba(255,255,255,.06)}
+  section>header h2{font-size:24px; margin-bottom:6px; display:inline-block}
+  .pill{
+    display:inline-block; font-size:12px; font-weight:700; color:#0b0f14; background:var(--accent-3);
+    border-radius:999px; padding:4px 10px; margin-left:10px; vertical-align:middle;
+  }
+  .section-body{background:var(--card); border-radius:var(--radius); padding:24px; border:1px solid rgba(255,255,255,.07)}
+
+  /* Toolbar */
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:20px}
+  .btn{
+    background:var(--accent); color:#0b0f14; border:none; border-radius:8px; padding:10px 16px;
+    font-weight:700; cursor:pointer; font-size:14px; transition:.2s;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(114,230,185,.4)}
+  .btn.primary{background:var(--accent-2); color:#fff}
+  .btn.warn{background:var(--danger); color:#fff}
+  .btn.fav{background:transparent; border:2px solid var(--accent-3); color:var(--accent-3); padding:6px 12px}
+  .btn.fav.active{background:var(--accent-3); color:#0b0f14}
+  .switch{display:inline-flex; align-items:center; gap:8px; font-size:14px; color:var(--muted)}
+
+  /* Search */
+  .searchbar{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  input[type="search"]{
+    flex:1; min-width:200px; background:#0c121a; border:1px solid rgba(255,255,255,.1); border-radius:8px;
+    padding:10px 14px; color:var(--ink); font:inherit;
+  }
+
+  /* Cards */
+  .grid{display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+  .card{
+    background:linear-gradient(135deg, rgba(114,230,185,.05), rgba(154,167,255,.05));
+    border:1px solid rgba(255,255,255,.07); border-radius: var(--radius-sm); padding:16px;
+    box-shadow: var(--shadow); position:relative; overflow:hidden;
+  }
+  .card h3{margin:0 0 6px; font-size:16px}
+  .card .meta{color:var(--muted); font-size:13px; margin-bottom:6px}
+  .card .act{display:flex; gap:8px; margin-top:10px}
+  .tag{font-size:11px; color:#0b0f14; background:var(--accent); border-radius:999px; padding:4px 8px; font-weight:700}
+  .tag.alt{background: var(--accent-2); color:#060913}
+  .tag.sun{background: var(--accent-3); color:#1b1306}
+
+  /* Original Content block (verbatim) */
+  .verbatim{
+    white-space:pre-wrap; font-size:15px; line-height:1.6; color:#eaf4ff;
+    background:
+      radial-gradient(600px 200px at 80% 100%, rgba(154,167,255,.08), transparent 60%),
+      radial-gradient(600px 200px at 20% 0%, rgba(114,230,185,.08), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    border:1px dashed rgba(114,230,185,.35); border-radius: var(--radius); padding:18px; box-shadow: var(--shadow);
+  }
+  .note{
+    background: #0f1620; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; color:var(--muted);
+  }
+
+  /* Notes & highlights */
+  .notes{
+    display:grid; gap:8px;
+  }
+  textarea{
+    width:100%; min-height:120px; resize:vertical; background:#0c121a; color:var(--ink);
+    border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; font:inherit;
+  }
+  .hl{
+    background:#1a2332; border-left:3px solid var(--accent); padding:10px; margin:8px 0; border-radius:6px; color:#c7dff5;
+  }
+  .saveState{color:var(--accent-3); font-size:12px; font-weight:700; margin-top:8px; display:block}
+
+  @media print{
+    body::before{display:none}
+    .toolbar, .searchbar, .btn{display:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Hidden Prodigy Paradox <sub>Strength in Disguise</sub></h1>
+  <p style="max-width:700px; margin:20px auto; color:var(--muted); font-size:15px">
+    Prenarrative inversion in the wild: systems dismiss what looks small, fragile, or marginal — and that underestimation buys the seed enough time to become the forest. This guide preserves your original passage <em>verbatim</em>, extends it with mythic/biological/physical mappings, and gives you IndexedDB-backed tools to highlight, annotate, export, and teach offline.
+  </p>
+  <div class="toolbar">
+    <button class="btn primary" id="btnHighlight">Highlight Selection</button>
+    <button class="btn" id="btnExport">Export Notes JSON</button>
+    <button class="btn" id="btnPrint">Print / PDF</button>
+    <button class="btn warn" id="btnReset">Reset Local Data</button>
+    <label class="switch"><input type="checkbox" id="modeToggle"/> Light mode</label>
+  </div>
+</header>
+
+<main>
+  <!-- SEARCH / FILTER -->
+  <section aria-labelledby="filtering">
+    <header>
+      <h2 id="filtering">Explore the Pattern</h2>
+      <span class="pill">Search & filter</span>
+    </header>
+    <div class="section-body">
+      <div class="searchbar">
+        <input type="search" id="q" placeholder="Search examples (seed, gravity, exile, trickster…)" />
+        <button class="btn" id="clearQ">Clear</button>
+        <label class="switch"><input type="checkbox" id="onlyFavs"/> Show favorites only</label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORIGINAL CONTENT (VERBATIM) -->
+  <section aria-labelledby="verbatim">
+    <header>
+      <h2 id="verbatim">Original Passage • Verbatim</h2>
+      <span class="pill">Immutable context</span>
+    </header>
+    <div class="section-body">
+      <div id="verbatimBlock" class="verbatim">
+What you've just described is a very old, very alive pattern: strength disguised as weakness, prodigy hidden in plain sight. Nature and culture both play this game constantly. Let's dig into some examples that make the paradox sing.  
+
+---
+
+### In Nature
+- **Seed vs. Tree**  
+  A seed looks dead, brittle, and tiny—but it contains the entire blueprint for a forest giant. The tree is obvious; the seed is cryptic. Systems that prioritize visible power miss the seed entirely.
+
+- **Chrysalis**  
+  To the outside observer, the caterpillar "died." Inside that still shell, imaginal cells are dissolving the old form and building wings. Weakness = radical transformation in stealth mode.
+
+- **Mycelium**  
+  The mushroom you see is just the fruit. The real organism is an underground network of thread-thin hyphae, sometimes spanning acres. Invisible = resilient.
+
+---
+
+### In Physics & Phenomena
+- **Gravity**  
+  The weakest of the four fundamental forces—yet it organizes galaxies, bends spacetime, and dictates the fate of the cosmos.
+
+- **Water**  
+  Soft, yielding, slips through your fingers. But given time, it carves canyons, moves mountains, and shapes continents. Lao Tzu wrote: "Nothing is softer or more flexible than water, yet nothing can resist it."
+
+- **Phase Transitions**  
+  99°C water and 100°C water look nearly identical—but cross that threshold and everything changes. Weak signals near tipping points are the most powerful predictors.
+
+---
+
+### In Human and Cultural Cycles
+- **Exile → Return**  
+  Moses, Sundiata, Oedipus, Odysseus, Padmé in hiding, even Steve Jobs leaving Apple. The hero forced into the wilderness comes back with deeper knowledge, new alliances, and a clarity that couldn't exist in the palace.
+
+- **Dissidents & Margins**  
+  Galileo was marginalized. Darwin delayed publishing for decades. Alan Turing, LGBTQ+ pioneers, neurodivergent thinkers—all dismissed or punished by their own societies, yet they redefined reality.
+
+- **Socrates, "I know nothing"**  
+  Feigned ignorance as the sharpest blade. By claiming weakness, he disarmed the powerful and exposed the emptiness of their supposed wisdom.
+
+- **Anansi, Loki, Coyote**  
+  Trickster gods succeed precisely because they're underestimated. They weaponize the assumption that they're harmless or foolish.
+
+---
+
+### In Technology & Innovation
+- **Linux**  
+  A grad student's hobby project, dismissed by giants like Microsoft. Now it runs most of the internet, from Android phones to AWS servers.
+
+- **Bitcoin**  
+  Born in obscurity, mocked as "nerd money." Now it's redefined how we think about sovereignty, censorship resistance, and trust.
+
+- **Open Source**  
+  The idea that giving software away for free could outcompete billion-dollar corporations seemed absurd—until it became the foundation of modern tech.
+      </div>
+      <div class="note" style="margin-top:12px">
+        <button class="btn primary" id="btnHighlightVerbatim" style="font-size:13px">Highlight Selection</button>
+      </div>
+      <div id="verbatimHighlights" class="hl" hidden></div>
+      <div class="note">Tip: Select any text above and press "Highlight Selection" to save it. Notes & favorites are stored locally via IndexedDB. Your data never leaves the file.</div>
+    </div>
+  </section>
+
+  <!-- EXPANDED SECTION -->
+  <section aria-labelledby="expanded">
+    <header>
+      <h2 id="expanded">Expanded Field Guide • Patterns, Signals, Actions</h2>
+      <span class="pill">Added section</span>
+    </header>
+    <div class="section-body">
+      <div class="grid" id="cards"><!-- injected by JS --></div>
+    </div>
+  </section>
+
+  <!-- NOTES -->
+  <section aria-labelledby="notes">
+    <header>
+      <h2 id="notes">Your Field Notes</h2>
+      <span class="pill">IndexedDB • local-only</span>
+    </header>
+    <div class="section-body">
+      <div class="notes">
+        <textarea id="notesBox" placeholder="Document patterns you notice, connections you make, seeds you're protecting…"></textarea>
+        <span class="saveState" id="saveState">Loaded</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ===========================================================
+   Service Worker for offline
+   =========================================================== */
+if('serviceWorker' in navigator){
+  (()=>{
+    const swCode = `
+    self.addEventListener('install', e=>{
+      e.waitUntil(
+        caches.open('hpp-v1').then(c=>c.addAll(['./']))
+      );
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e=> { self.clients.claim(); });
+    self.addEventListener('fetch', e=>{
+      const req = e.request;
+      // Cache-first for this single file
+      e.respondWith(
+        caches.match(req).then(hit => hit || fetch(req).then(res=>{
+          const r = res.clone();
+          caches.open('hpp-v1').then(c=>c.put(req, r)).catch(()=>{});
+          return res;
+        }).catch(()=> caches.match('./')))
+      );
+    });
+  `;
+  const blob = new Blob([swCode], {type:'text/javascript'});
+  const swURL = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swURL).catch(()=>{});
+})();
+}
+
+/* ===========================================================
+   IndexedDB minimal helper
+   =========================================================== */
+const DB_NAME = 'hidden-prodigy-paradox';
+const DB_VER  = 1;
+let db;
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req = indexedDB.open(DB_NAME, DB_VER);
+    req.onupgradeneeded = e=>{
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains('kv')) d.createObjectStore('kv');
+      if(!d.objectStoreNames.contains('highlights')) d.createObjectStore('highlights',{keyPath:'id',autoIncrement:true});
+    };
+    req.onsuccess = e=>{ db=e.target.result; resolve(db); };
+    req.onerror = ()=>reject(req.error);
+  });
+}
+function idbGet(store, key){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readonly'); const st=tx.objectStore(store);
+    const r = st.get(key); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbSet(store, key, val){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.put(val, key); r.onsuccess=()=>resolve(); r.onerror=()=>reject(r.error);
+  });
+}
+function idbAdd(store, val){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.add(val); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbGetAll(store){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readonly'); const st=tx.objectStore(store);
+    const r = st.getAll(); r.onsuccess=()=>resolve(r.result); r.onerror=()=>reject(r.error);
+  });
+}
+function idbClear(store){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(store,'readwrite'); const st=tx.objectStore(store);
+    const r = st.clear(); r.onsuccess=()=>resolve(); r.onerror=()=>reject(r.error);
+  });
+}
+
+/* ===========================================================
+   App State
+   =========================================================== */
+const cardsData = [
+  {title:'Mythic Map', text:'Archetypes that encode power-masked-as-weakness', tags:['myth','archetype']},
+  {title:'Detection Heuristics', text:'Signals that a cloaked prodigy is nearby', tags:['heuristics','signals']},
+  {title:'Physics Echoes', text:'Small forces steering big worlds', tags:['physics','tunneling','gravity']},
+  {title:'Biology Echoes', text:'Seed → chrysalis → mycelial mesh', tags:['biology','mycelium','imaginal']},
+  {title:'Cultural Echoes', text:'Margins become centers of gravity', tags:['culture','history']},
+  {title:'Action Prompts', text:'Prenarrative inversion in practice', tags:['action','design']},
+];
+
+const els = {
+  cards: document.getElementById('cards'),
+  q: document.getElementById('q'),
+  clearQ: document.getElementById('clearQ'),
+  onlyFavs: document.getElementById('onlyFavs'),
+  notes: document.getElementById('notesBox'),
+  saveState: document.getElementById('saveState'),
+  verbatim: document.getElementById('verbatimBlock'),
+  verbatimHighlights: document.getElementById('verbatimHighlights'),
+  btnHighlight: document.getElementById('btnHighlight'),
+  btnHighlightVerbatim: document.getElementById('btnHighlightVerbatim'),
+  btnExport: document.getElementById('btnExport'),
+  btnPrint: document.getElementById('btnPrint'),
+  btnReset: document.getElementById('btnReset'),
+  modeToggle: document.getElementById('modeToggle'),
+};
+
+let favs = new Set();
+
+/* ===========================================================
+   Render cards
+   =========================================================== */
+function renderCards(){
+  const query = els.q.value.toLowerCase().trim();
+  const showFavs = els.onlyFavs.checked;
+  const filtered = cardsData.filter(c=>{
+    if(showFavs && !favs.has(c.title)) return false;
+    if(!query) return true;
+    const searchText = [c.title, c.text, ...c.tags].join(' ').toLowerCase();
+    return searchText.includes(query);
+  });
+
+  if(!filtered.length){
+    els.cards.innerHTML = '<p style="color:var(--muted); grid-column:1/-1">No matches found. Try adjusting your search or filters.</p>';
+    return;
+  }
+
+  els.cards.innerHTML = filtered.map(c=>{
+    const isFav = favs.has(c.title);
+    const cardContent = getCardContent(c.title);
+    return `
+      <div class="card">
+        <h3>${c.title}</h3>
+        <div class="meta">${c.text}</div>
+        ${cardContent}
+        ${c.tags.map((t,i)=>`<span class="tag ${i%3===1?'alt':i%3===2?'sun':''}">${t}</span>`).join(' ')}
+        <div class="act"><button class="btn fav ${isFav?'active':''}" data-fav="${c.title}">★ Favorite</button></div>
+      </div>
+    `;
+  }).join('');
+
+  // Re-attach fav listeners
+  document.querySelectorAll('.btn.fav').forEach(btn=>{
+    btn.addEventListener('click', async e=>{
+      const title = e.currentTarget.dataset.fav;
+      if(favs.has(title)) favs.delete(title);
+      else favs.add(title);
+      await saveFavs();
+      renderCards();
+    });
+  });
+}
+
+function getCardContent(title){
+  const content = {
+    'Mythic Map': `
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li><strong>Trickster</strong> (Anansi/Loki/Coyote/Reynard): feigned folly to outmaneuver giants.</li>
+        <li><strong>Hidden Heir</strong> (Moses/Sundiata/Arthur/Aragorn): risk → concealment → return.</li>
+        <li><strong>Pilgrim-Scientist</strong> (Socrates/Hypatia/Galileo): social "weakness" as intellectual sovereignty.</li>
+        <li><strong>The Seed</strong> (Demeter/Persephone/Osiris): descent as precondition for bloom.</li>
+        <li><strong>Phoenix</strong> (Bennu/Fenghuang): death and rebirth through apparent destruction.</li>
+        <li><strong>Sleeping Beauty/Snow White</strong>: dormancy that protects during hostile times.</li>
+        <li><strong>The Fool</strong> (Tarot, Shakespeare's jesters): truth-telling masked as innocence.</li>
+        <li><strong>Cassandra</strong>: dismissed prophecy that proves accurate.</li>
+        <li><strong>Parsifal/Percival</strong>: naivety as hidden strength.</li>
+        <li><strong>The Ugly Duckling</strong>: misrecognition of excellence due to wrong context.</li>
+      </ul>
+    `,
+    'Detection Heuristics': `
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li>High-variance output, low institutional fit.</li>
+        <li>Asymmetric curiosity: deep mastery + playful breadth.</li>
+        <li>Chronic underestimation by status-seekers.</li>
+        <li>Stewardship tells: protects commons, shares credit, builds soil.</li>
+        <li>Pattern disruption: doesn't follow expected trajectories.</li>
+        <li>Anti-credentials: rejected by institutions but produces exceptional work.</li>
+        <li>Cross-domain fluency: speaks multiple "languages".</li>
+        <li>Generosity without reciprocity: gives freely before gaining recognition.</li>
+        <li>Long time horizons: thinks in decades while peers think in quarters.</li>
+        <li>Discomfort with status games: actively avoids hierarchy.</li>
+      </ul>
+    `,
+    'Physics Echoes': `
+      <p style="font-size:13px; color:var(--ink); margin:8px 0">Gravity's weakness organizes galaxies; tunneling beats walls; phase transitions flip states once the "invisible" threshold is crossed.</p>
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li><strong>Leverage points</strong>: small system interventions create massive change.</li>
+        <li><strong>Butterfly effect</strong>: sensitive dependence on initial conditions.</li>
+        <li><strong>Supercooling</strong>: one crystal nucleates instant solidification.</li>
+        <li><strong>Critical mass</strong>: below threshold = inert, above = exponential.</li>
+        <li><strong>Resonance</strong>: small periodic forces aligned with natural frequency.</li>
+        <li><strong>Dark matter & dark energy</strong>: 95% of universe is invisible.</li>
+        <li><strong>Quantum entanglement</strong>: connection without classical causation.</li>
+      </ul>
+    `,
+    'Biology Echoes': `
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li><strong>Seed</strong> → exponential growth from apparent dormancy.</li>
+        <li><strong>Chrysalis</strong> → imaginal cells rebuild from within.</li>
+        <li><strong>Mycelium</strong> → underground networks spanning acres.</li>
+        <li><strong>Keystone species</strong>: sea otters, wolves, beavers—remove them and ecosystems collapse.</li>
+        <li><strong>Horizontal gene transfer</strong>: bacteria share adaptations across lineages.</li>
+        <li><strong>Symbiosis</strong>: mitochondria were independent bacteria; weakness + weakness = dominance.</li>
+        <li><strong>Tardigrades</strong>: microscopic yet survive space, radiation, boiling, freezing.</li>
+        <li><strong>Slime molds</strong>: no brain, yet solve mazes and optimize networks.</li>
+        <li><strong>Pioneer species</strong>: lichens crack rock, enabling soil for everything that follows.</li>
+        <li><strong>Dormancy mechanisms</strong>: seeds wait centuries; spores outlast ice ages.</li>
+      </ul>
+    `,
+    'Cultural Echoes': `
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li><strong>Jazz & blues</strong>: born in oppression, now foundational to global music.</li>
+        <li><strong>Yiddish theater</strong>: marginalized communities creating cultural watersheds.</li>
+        <li><strong>Punk/DIY</strong>: rejection by mainstream = creative freedom = genre revolution.</li>
+        <li><strong>Zines & underground press</strong>: Xeroxed booklets became citizen journalism.</li>
+        <li><strong>Wikipedia</strong>: dismissed as unreliable; now more accurate than Encyclopedia Britannica.</li>
+        <li><strong>Fanfiction</strong>: scorned as derivative; now training ground for bestselling authors.</li>
+        <li><strong>Encryption</strong>: cypherpunks dismissed as paranoid; now essential infrastructure.</li>
+        <li><strong>Homeschooling/unschooling</strong>: fringe weirdos; now accepted alternative.</li>
+        <li><strong>Community gardens</strong>: from squatter plots to urban agriculture movements.</li>
+        <li><strong>Mutual aid networks</strong>: invisible safety nets when official systems fail.</li>
+      </ul>
+    `,
+    'Action Prompts': `
+      <ul style="font-size:13px; color:var(--ink); margin:8px 0; line-height:1.7">
+        <li>Fund <strong>small experiments</strong> with large option value.</li>
+        <li>Build <strong>weak-signal shelters</strong> (labs, grants, quiet time).</li>
+        <li>Reward <strong>auditable public-good outputs</strong>, not status displays.</li>
+        <li><strong>Archive early</strong>, protect sovereignty, make verifiable.</li>
+        <li><strong>Create asymmetric bets</strong>: small downside, infinite upside.</li>
+        <li><strong>Protect dormancy</strong>: not all seeds should sprout today.</li>
+        <li><strong>Celebrate "failed" experiments</strong>: data on what doesn't work is valuable.</li>
+        <li><strong>Build modular tools</strong>: small pieces loosely joined outcompete monoliths.</li>
+        <li><strong>Document process</strong>, not just outcomes: breadcrumbs for explorers.</li>
+        <li><strong>Practice prenarrative inversion</strong>: what looks weak today becomes essential tomorrow?</li>
+        <li><strong>Cultivate patience</strong>: exponential growth looks flat until it doesn't.</li>
+        <li><strong>Defend the commons</strong>: value for everyone is dismissed until it's gone.</li>
+      </ul>
+    `
+  };
+  return content[title] || '';
+}
+
+/* ===========================================================
+   Highlights
+   =========================================================== */
+async function captureHighlight(){
+  const sel = window.getSelection();
+  const text = sel.toString().trim();
+  if(!text){ alert('Please select some text first.'); return; }
+  await idbAdd('highlights', {text, timestamp: Date.now()});
+  sel.removeAllRanges();
+  renderHighlights();
+}
+async function renderHighlights(){
+  const rows = await idbGetAll('highlights');
+  if(!rows.length){ els.verbatimHighlights.hidden = true; els.verbatimHighlights.innerHTML=''; return; }
+  els.verbatimHighlights.hidden = false;
+  els.verbatimHighlights.innerHTML = rows.map(r=>`<div class="hl">"${r.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</div>`).join('');
+}
+
+/* ===========================================================
+   Notes
+   =========================================================== */
+let saveTimer;
+function markSaved(msg='Saved'){ els.saveState.textContent = msg; }
+function markUnsaved(){ els.saveState.textContent = 'Unsaved'; }
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async ()=>{
+    await idbSet('kv','notes', els.notes.value);
+    markSaved();
+  }, 400);
+}
+
+/* ===========================================================
+   Favorites
+   =========================================================== */
+async function loadFavs(){
+  const raw = await idbGet('kv','favs');
+  favs = new Set(Array.isArray(raw)? raw : []);
+}
+async function saveFavs(){
+  await idbSet('kv','favs', Array.from(favs));
+}
+
+/* ===========================================================
+   Mode toggle
+   =========================================================== */
+function setLightMode(on){
+  document.documentElement.style.setProperty('--bg', on?'#f6f9ff':'#0b0f14');
+  document.documentElement.style.setProperty('--bg-soft', on?'#eef3ff':'#0e131a');
+  document.documentElement.style.setProperty('--card', on?'#ffffff':'#121923');
+  document.documentElement.style.setProperty('--ink', on?'#0b0f14':'#e9f0f7');
+  document.documentElement.style.setProperty('--muted', on?'#41556a':'#9db2c7');
+}
+
+/* ===========================================================
+   Export / Print / Reset
+   =========================================================== */
+async function exportJSON(){
+  const notes = await idbGet('kv','notes') || '';
+  const highlights = await idbGetAll('highlights');
+  const favorites = await idbGet('kv','favs') || [];
+  const payload = {
+    schema:'hidden-prodigy-paradox.v1',
+    exportedAt: new Date().toISOString(),
+    notes, highlights, favorites
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement('a'), {href:url, download:'hidden_prodigy_export.json'});
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+async function resetAll(){
+  if(!confirm('This will clear highlights, notes, and favorites saved locally. Continue?')) return;
+  await idbClear('highlights'); await idbSet('kv','notes',''); await idbSet('kv','favs',[]);
+  favs = new Set(); els.notes.value=''; renderCards(); renderHighlights(); markSaved('Cleared');
+}
+
+/* ===========================================================
+   Event wiring
+   =========================================================== */
+(async function init(){
+  await openDB();
+
+  // Load state
+  els.notes.value = await idbGet('kv','notes') || '';
+  markSaved('Loaded');
+  await loadFavs();
+  renderCards();
+  renderHighlights();
+
+  // Search/filter
+  els.q.addEventListener('input', renderCards);
+  els.clearQ.addEventListener('click', ()=>{ els.q.value=''; renderCards(); });
+  els.onlyFavs.addEventListener('change', renderCards);
+
+  // Notes
+  els.notes.addEventListener('input', ()=>{ markUnsaved(); scheduleSave(); });
+
+  // Highlights
+  els.btnHighlight.addEventListener('click', captureHighlight);
+  els.btnHighlightVerbatim.addEventListener('click', captureHighlight);
+
+  // Export/Print/Reset
+  els.btnExport.addEventListener('click', exportJSON);
+  els.btnPrint.addEventListener('click', ()=>window.print());
+  els.btnReset.addEventListener('click', resetAll);
+
+  // Mode toggle
+  els.modeToggle.addEventListener('change', e=> setLightMode(e.target.checked));
+
+  // Keyboard: / focuses search
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === '/'){ e.preventDefault(); els.q.focus(); }
+  });
+})();
+</script>
+</body>
+</html>
